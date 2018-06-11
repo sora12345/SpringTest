@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PopupImg">
+
+	<insert id="insertData" parameterType="kr.co.ksr1.popup.dto.PopupImgDTO">
+		<selectKey keyProperty="popImgId" resultType="int" order="BEFORE">
+				SELECT SEQ_POPUP_IMG.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TB_POPUP_IMG(
+			POP_IMG_ID
+			,POP_ID
+			,ORG_IMG_NAME
+			,NEW_IMG_NAME
+			,IMG_TYPE
+			,IMG_SIZE
+			,IMG_PATH
+			,IMG_EXT
+			,REG_DT
+			)VALUES(
+			#{popImgId}
+			,#{popId}
+			,#{orgImgName}
+			,#{newImgName}
+			,#{imgType}
+			,#{imgSize}
+			,#{imgPath}
+			,#{imgExt}
+			,SYSDATE
+			)
+	</insert>
+	
+	<select id="selectList" parameterType="Integer" resultType="kr.co.ksr1.popup.dto.PopupImgDTO">
+		SELECT*
+		FROM TB_POPUP_IMG
+		WHERE POP_ID=#{popId}
+	</select>
+	
+  	<delete id="deleteData" parameterType="Integer">
+	      DELETE FROM TB_POPUP_IMG 
+	      WHERE POP_IMG_ID= #{popImgId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardNotice">
+	<insert id="insertData" parameterType="kr.co.ksr1.board.dto.BoardDocDTO">
+		INSERT INTO TB_BOARD_NOTICE(
+			DOC_ID
+			,NOTICE_YN
+			)VALUES(
+			#{docId}
+			,#{noticeYn}
+			)
+	</insert>
+	
+	<select id="selectList" parameterType="kr.co.ksr1.board.dto.BoardDocDTO">
+		SELECT ROWNUM AS RNUM, A.*
+		FROM (
+		    SELECT N.NOTICE_YN, B.*
+		    FROM TB_BOARD_NOTICE N
+		    LEFT JOIN TB_BOARD_DOC B ON B.DOC_ID = N.DOC_ID
+		    ORDER BY B.REG_DT
+		) A
+		WHERE ROWNUM &lt; 4
+	</select>
+	
+	<update id="updateData" parameterType="Integer">
+		UPDATE TB_BOARD_NOTICE
+		SET NOTICE_YN=#{noticeYn}
+		WHERE DOC_ID=#{docId}
+	</update>
+</mapper>

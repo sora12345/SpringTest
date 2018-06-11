@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardFile">
+<insert id="insertData" parameterType="kr.co.ksr1.board.dto.BoardFileDTO">
+				INSERT INTO TB_BOARD_FILE(
+					DOC_ID
+					,	FILE_SNO
+					,	ORG_FILE_NAME
+					,	NEW_FILE_NAME
+					,	FILE_TYPE
+					,	FILE_SIZE
+					,	FILE_PATH
+					,	FILE_EXT
+					, REG_DT
+				)VALUES(
+					#{docId}
+					,	(SELECT NVL (COUNT(*),0)+1 FROM TB_BOARD_FILE WHERE DOC_ID=#{docId})
+					,	#{orgFileName}
+					,	#{newFileName}
+					,	#{fileType}
+					,	#{fileSize}
+					,	#{filePath}
+					,	#{fileExt}
+					,	SYSDATE
+				)
+</insert>
+<select id="selectList" parameterType="Integer" resultType="kr.co.ksr1.board.dto.BoardFileDTO">
+				SELECT*
+				FROM TB_BOARD_FILE
+				WHERE DOC_ID=#{docId}
+</select>
+
+<delete id="deleteData" parameterType="Integer">
+				DELETE FROM TB_BOARD_FILE
+				WHERE FILE_SNO=#{fileSno}
+</delete>
+
+<delete id="deleteByDocId" parameterType="Integer">
+				DELETE FROM TB_BOARD_FILE
+				WHERE DOC_ID=#{docId}
+</delete>
+
+
+
+<select id="selectOne" parameterType="kr.co.ksr1.board.dto.BoardFileDTO" resultType="kr.co.ksr1.board.dto.BoardFileDTO">
+				SELECT * 
+				FROM TB_BOARD_FILE
+				WHERE DOC_ID=#{docId} AND FILE_SNO=#{fileSno}
+</select>				
+</mapper>
